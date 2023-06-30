@@ -1,12 +1,10 @@
 import { createRouter, createWebHistory } from 'vue-router'
 
-import EmailView from '../views/template/EmailView.vue'
-import HomeView from '../views/HomeView.vue'
-import MessageView from '../views/MessageView.vue'
+import MailDetail from '../components/MailDetail.vue'
+import EmailView from '../views/EmailView.vue'
+import AlarmView from '../views/AlarmView.vue'
 import LoginView from '../views/LoginView.vue'
-// import PageNotFound from '../views/PageNotFound.vue'
 
-import { useUserStore } from '@/store/user-store'
 
 const routes = [
   {
@@ -15,26 +13,29 @@ const routes = [
   },
   {
     path: '/email',
-    beforeEnter: (to, from, next) => {
-      useUserStore().email ? next() : next('/')
-    },
+    name: 'email',
     component: EmailView,
     children: [
       {
-        path: '',
-        component: HomeView
-      },
-      {
-        path: 'message/:id',
-        component: MessageView
+        path: 'maildetail',
+        name: 'maildetail',
+        component: MailDetail,
       }
+     
     ]
-  }
-  // ,
-  // { 
-  //   path: '*', 
-  //   component: PageNotFound
-  // }
+  },
+  {
+    path: '/alarm',
+    component: AlarmView,
+    children: [
+      {
+        path: 'maildetail',
+        name: 'maildetailforalarm',
+        component: MailDetail
+      }
+      
+    ]
+  },
 ]
 
 const router = createRouter({
